@@ -162,7 +162,9 @@ export default function LandingPage() {
 
             <div className="hidden items-center gap-2 md:flex">
               <button
-                onClick={() => scrollTo("login")}
+                onClick={() => {
+                  navigate("/login")
+                }}
                 className="rounded-xl px-4 py-2.5 text-sm text-white/70 transition hover:text-white"
               >
                 Sign in
@@ -686,7 +688,10 @@ export default function LandingPage() {
                 </p>
               </div>
 
-              <button className="group flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-white/90">
+              <button className="group flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-white/90"
+              onClick={()=>{
+                navigate("/register")
+              }}>
                 Create your account
 
                 <ArrowRight
