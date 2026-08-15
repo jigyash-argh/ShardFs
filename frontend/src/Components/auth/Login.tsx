@@ -10,9 +10,10 @@ export default function Login() {
     const handleSubmit=async(e)=>{
         e.preventDefault();
         try{
-            const data =await loginUser(Email,password)
-            localStorage.setItem("token",data.access_token)
-            navigate("dashboard")
+            const data = await loginUser(Email, password)
+            // backend returns `token` field
+            localStorage.setItem("token", data.token)
+            navigate("/dashboard")
         }catch(error){
             console.log("Invalid email or password");
         }
