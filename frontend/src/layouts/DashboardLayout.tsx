@@ -1,60 +1,52 @@
-import { useEffect, useState } from "react"
-import  api  from "../api/axios"
+import { useState } from "react"
+import { Outlet } from "react-router-dom"
+import Sidebar from "../Components/Sidebar"
 
 const DashboardLayout = () => {
-    const [user, setUser] = useState<any>(null)
-    const [error, setError] = useState("")
 
-    useEffect(() => {
-        const getUser = async () => {
-            try {
-                const token = localStorage.getItem("token")
-
-                const response = await api.get("/getMe", {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-
-                console.log("GET ME RESPONSE:", response.data)
-
-                setUser(response.data.user)
-            } catch (err) {
-                console.log("GET ME ERROR:", err)
-                setError("Failed to fetch user")
-            }
-        }
-
-        getUser()
-    }, [])
+    const [collapsed, setCollapsed] = useState(false)
 
     return (
-        <div className="min-h-screen bg-[#050505] text-white p-10">
-            <h1 className="text-3xl font-semibold">
-                Dashboard
-            </h1>
+        <div className="min-h-screen bg-[#050505] text-white">
 
-            {error && (
-                <p className="mt-5 text-red-400">
-                    {error}
-                </p>
-            )}
+            <Sidebar
+                collapsed={collapsed}
+                setCollapsed={setCollapsed}
+            />
 
-            {user && (
-                <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.035] p-6">
-                    <p className="text-white/40 text-sm">
-                        Logged in as
-                    </p>
+            <main
+                className={`
+                    min-h-screen transition-all duration-300
+                    ${collapsed ? "ml-[72px]" : "ml-[240px]"}
+                `}
+            >
 
-                    <p className="mt-2 text-xl">
-                        {user.username}
-                    </p>
+                <header className="h-[72px] border-b border-white/[0.07] bg-[#050505] px-8 flex items-center justify-between">
 
-                    <p className="mt-1 text-white/40">
-                        {user.email}
-                    </p>
+                    <div>
+                        <p className="text-[10px] uppercase tracking-[0.2em] text-white/20">
+                            ShardFS
+                        </p>
+
+                        <p className="mt-1 text-sm font-medium">
+                            Distributed Storage
+                        </p>
+                    </div>
+
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.08] text-xs">
+                        U
+                    </div>
+
+                </header>
+
+                <div className="p-8">
+
+                    <Outlet />
+
                 </div>
-            )}
+
+            </main>
+
         </div>
     )
 }
